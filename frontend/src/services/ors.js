@@ -45,8 +45,11 @@ export async function getRoute(originCoords, destCoords, avoidPolygons = null) {
     }
 
     const data = await response.json();
-    // data.coords already in [lat, lon]
-    return { coords: data.coords };
+    // data.routes is now an array of route objects
+    // Each route has: { coords: [[lat, lon], ...], duration: minutes, distance: km }
+    return { 
+      routes: data.routes || []
+    };
   } catch (err) {
     console.error('Network error during getRoute', err);
     throw err;
